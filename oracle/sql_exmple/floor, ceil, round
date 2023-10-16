@@ -1,0 +1,29 @@
+-- Floor, CEIL, ROUND : 숫자 반올림 및 내림
+--SELECT ename, floor(salary) as FLOOR_SALARY from employee;
+--SELECT ename, CEIL(salary) as CEIL_SALARY from employee;
+--SELECT ename, ROUND(salary, 2) as ROUND_SALARY from employee;
+
+
+--CREATE TABLE salary_info (
+--    employee_id number primary key,
+--    employee_name varchar2(50),
+--    salary number(10, 2)
+--)
+
+--INSERT INTO salary_info (employee_id, employee_name, salary) values (1, '맴머드', 50000.50);
+--INSERT INTO salary_info (employee_id, employee_name, salary) values (2, '바나스', 60000.75);
+--INSERT INTO salary_info (employee_id, employee_name, salary) values (3, '박다밤', 70000.18);
+--INSERT INTO salary_info (employee_id, employee_name, salary) values (4, '맥가컾', 80000.35);
+--INSERT INTO salary_info (employee_id, employee_name, salary) values (5, '스탚벜', 90000.69);
+
+----id 가 1인 직원의 급여를 floor 함수 사용하여 내림
+--select employee_id, employee_name, floor(salary) from salary_info where employee_id = 1;
+--
+----employee_id 가 2인 직원의 급여를 ceil 함수를 사용해서 올림
+--select employee_id, employee_name, ceil(salary) from salary_info where employee_id = 2;
+--
+----employee_id 가 3인 직원의 급여를 round 함수를 사용해서 반올림
+--select employee_id, employee_name, round(salary, 1) from salary_info where employee_id = 3;
+--
+----employee_id 가 4인 직원의 급여를 floor 함수를 사용해서 내림
+--select employee_id, employee_name, floor(salary) from salary_info where employee_id = 4;

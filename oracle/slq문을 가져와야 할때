@@ -1,0 +1,6 @@
+
+명령어 
+1. sqlplus 사용자이름/사용자 비밀번호
+
+2. @@sql파일이 들어있는 주소(위치)\sql파일이름.sql
+예시) @@C:\Users\user1\Desktop\EMP_EXAMPLE.sql

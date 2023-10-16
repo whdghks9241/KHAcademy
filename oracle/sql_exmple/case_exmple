@@ -1,0 +1,76 @@
+--직원의 급여가 5000 이상인 경우 "고액"으로 표시하고 그외에는 "보통"으로 표시한다
+SELECT ename, salary,
+    CASE -- 여러 조건을 비교할 수 있고, 조건을 만족하는 경우 다른 결과 반환
+    WHEN salary >= 5000 THEN '고액' -- 급여가 5000 이상인 경우 고액 반환
+    ELSE '보통' -- 위 조건이 해당하지 않는 경우 보통으로 반환
+    END  -- end는 case 문의 끝을 나타내는 키워드
+    AS salary_info -- as salary_info 새로 생성된 열에 별칭 부여
+    FROM employee;
+    
+-- 직급에 따라 보너스 계산
+SELECT ename, job, salary, 
+    CASE job
+        WHEN 'MANAGER' THEN salary * 0.15
+        WHEN 'Developer' THEN salary * 0.1
+        WHEN 'SalesPerson' THEN salary * 0.05
+        ELSE 0
+    END AS bonus
+FROM employee;
+
+--급여 범위 지정 5000이상 고액 3000이상 중간
+SELECT ename , salary, 
+    CASE 
+        WHEN salary >= 5000 THEN '고액' 
+        WHEN salary >= 3000 AND salary < 5000 THEN '중간'
+        else '저액'
+    END as salary_info
+FROM employee;
+
+--직원의입사한 연도에 따른 경력 계산
+--활용 : WHEN EXTRACT(YEAR FROM HIREDATE) 2021 THEN '1년 미만' 2022년은 1년으로 표기하기
+SELECT ename, HIREDATE,
+    CASE 
+        WHEN EXTRACT(YEAR FROM HIREDATE) = 2023 THEN '1년미만'
+        WHEN EXTRACT(YEAR FROM HIREDATE) = 2021 THEN '1년이상'
+        else '초과'
+    END as work
+FROM employee;
+--직원의 급여를 천 단위로 반올림
+SELECT ename, round(salary, -3) FROM employee;
+
+--직원의 급여에 따른 등급 지정
+SELECT ename , salary, 
+    CASE 
+        WHEN salary BETWEEN (SELECT LOSAL FROM SALGRADE WHERE GRADE = 1) and (SELECT HISAL FROM SALGRADE WHERE GRADE = 1) THEN 1
+        WHEN salary BETWEEN (SELECT LOSAL FROM SALGRADE WHERE GRADE = 2) and (SELECT HISAL FROM SALGRADE WHERE GRADE = 2) THEN 2
+        WHEN salary BETWEEN (SELECT LOSAL FROM SALGRADE WHERE GRADE = 3) and (SELECT HISAL FROM SALGRADE WHERE GRADE = 3) THEN 3
+        WHEN salary BETWEEN (SELECT LOSAL FROM SALGRADE WHERE GRADE = 4) and (SELECT HISAL FROM SALGRADE WHERE GRADE = 4) THEN 4
+        WHEN salary BETWEEN (SELECT LOSAL FROM SALGRADE WHERE GRADE = 5) and (SELECT HISAL FROM SALGRADE WHERE GRADE = 5) THEN 5
+        WHEN salary BETWEEN (SELECT LOSAL FROM SALGRADE WHERE GRADE = 6) and (SELECT HISAL FROM SALGRADE WHERE GRADE = 6) THEN 6
+        WHEN salary BETWEEN (SELECT LOSAL FROM SALGRADE WHERE GRADE = 7) and (SELECT HISAL FROM SALGRADE WHERE GRADE = 7) THEN 7
+        else 8
+    END as GRADE
+FROM employee;
+
+--부서별 직원 수 계산 및 부서 유형 지정
+--3명일 경우 중규모 5명일 경우 대규모
+SELECT dno , count(dno) dno_count,
+    CASE 
+        WHEN count(dno) >= 3 THEN '중규모'
+        WHEN count(dno) >= 5 THEN '대규모'
+        else '소규모'
+    END as group_type
+FROM employee GROUP BY dno;
+
+
+--직원의 입사 월에 따른 경력 계산
+--(*10월 1개월/ 9월 2개월 / 나머지는 3개월이상)
+SELECT ename, HIREDATE,
+    CASE 
+        WHEN EXTRACT(month from HIREDATE) = 10 THEN '1개월'
+        WHEN EXTRACT(month FROM HIREDATE) = 09 THEN '2개월'
+        WHEN EXTRACT(month FROM HIREDATE) = 08 THEN '3개월'
+        WHEN EXTRACT(month FROM HIREDATE) = 07 THEN '4개월'
+        else '5개월 이상'
+    END as work
+FROM employee;

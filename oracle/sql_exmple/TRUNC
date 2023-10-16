@@ -1,0 +1,2 @@
+-- TRUNC : 날짜 또는 숫자의 소수부 제거
+--SELECT ENAME, TRUNC(salary) as TRUNC_SALAY from employee;

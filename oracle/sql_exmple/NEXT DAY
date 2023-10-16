@@ -1,0 +1,2 @@
+-- NEXT DAY 다음 주어진 요일 날짜 찾기
+--SELECT ename, next_day(sysdate, 'FRIDAY') as nextday from dual;

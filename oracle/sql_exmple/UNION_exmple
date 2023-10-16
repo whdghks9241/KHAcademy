@@ -1,0 +1,5 @@
+--직원 이름과 연봉 추출
+SELECT ENAME, SALARY FROM EMPLOYEE 
+UNION -- 두개의 select 결과를 합침 / 이 결과를 중복 행을 제거하고 정렬된 상태로 반환
+-- 급여 추출
+SELECT 'SALGRADE' AS ENAME, GRADE AS SALARY FROM SALGRADE;

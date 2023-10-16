@@ -1,0 +1,2 @@
+-- ABS : 절대값 계산
+--SELECT ename, abs(commission) as ABS_COMMITTION from employee;

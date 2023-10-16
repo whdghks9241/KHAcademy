@@ -1,0 +1,11 @@
+sqlplus sys/oracle as sysdba -> cmd 창에서 접속
+
+ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
+
+CREATE USER  "사용자 이름"; IDENTIFIED BY  "사용자 비밀번호";
+
+GRANT CREATE SESSION TO "사용자 이름";
+
+GRANT CREATE ANY TABLE TO "사용자 이름";
+
+grant connect, resource, dba to "사용자 이름";

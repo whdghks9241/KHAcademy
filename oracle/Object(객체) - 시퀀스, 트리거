@@ -1,0 +1,117 @@
+시퀀스 (Sequence) : 데이터베이스에서 사용되는 객체, 일련의 숫자를 생성하는제 주로 사용
+                    고유한 값, 주로 기본키 또는 고유 식별자 생성에 사용
+
+예제코드 : 
+
+  CREATE SEQUENCE -- 시퀀스를 생성하는 명령어 
+          어떤값의_id -- 생성하려는 시퀀스의 이름을지정
+                        데이터베이스에서 해당 시퀀스를 식별하는데 사용
+          SRATR WITH 1 -- 시퀀스의 초기 시작 값을 1로 설정
+          INCREMENT BY 1 -- 시퀀스의 각 값이 1씩증가하도록 설정
+          NOMAXVALUE -- 시퀀스가 최대값에 도달하지 않도록 설정
+          NOCYCLE; -- 시퀀스 최대값에 도달하면 다시 처음으로 돌아가지 않도록 설정
+
+
+트리거 (Trigger) : 데이터베이스에서 발생하는 특정 이벤트에 반응하여 자동으로 실행되는 SQL 코드 조작
+                  데이터베이스 상태를 감시하고 데이터 변경, 삽입, 업데이트 또는 삭제와 같은 작업을 행할 수 있음.
+
+예제코드 : 
+
+     CREATE OR REPLACE TIFFER -- 트리거를 생성 또는 변경하는 명령
+                 "OR REPLACE" -- 이미 동일한 이름의 트리거가 있는 경우 덮어쓰기를 허용
+                   어떤값의_id -- 생성하려는 트리거의 이름을 지정 데이터베이스에서 해당트리거를 식별하는데 사용
+
+       BEFORE INSERT ON 테이블 -- 테이블에 행이 삽입되기 전에 실행
+                 FOR EACH ROW -- 트리거가 각 행별로 실행되도록 설정
+                                 트리거 내에서 현재 행을 참조할 수 있도록 함
+                  BEGIN / END -- 블록을 정의, 블록 내에서 틀리거나 수행할 자겅븡ㄹ 정의할 수 있음
+                                 현재 행에 대한 작업을 수행하거나 다른로직을 실행하는데 사용
+
+SELECT 어떤값의_id_seq.NEXTVAL
+INTO : NEW.어떤값의_id
+FROM dual;
+END;
+
+CREATE TABLE book_log (
+    log_id NUMBER PRIMARY KEY,
+    action_type VARCHAR2(10),
+    book_id NUMBER,
+    log_date TIMESTAMP
+);
+CREATE SEQUENCE book_log_seq START WITH 1 INCREMENT BY 1;
+
+-- 트리거 생성: 책이 INSERT 될 때마다 로그 테이블에 로그를 추가
+CREATE OR REPLACE TRIGGER book_insert_trigger
+AFTER INSERT ON book
+FOR EACH ROW
+BEGIN
+    INSERT INTO book_log (log_id, action_type, book_id, log_date)
+    VALUES (book_log_seq.NEXTVAL, 'INSERT', :NEW.book_id, SYSTIMESTAMP);
+    DBMS_OUTPUT.PUT_LINE('책이 추가되었습니다. 책 ID: ' || :NEW.book_id);
+END;
+
+-- INSERT 문을 실행
+INSERT INTO book (book_id, title, author, publication_year, isbn, genre, description, price, publication_date, is_available)
+VALUES (22, '새로운 책', '새로운 저자', 2023, '978-1234567890', 'Fiction', '새로운 책 설명', 9.99, TO_DATE('2023-10-13', 'YYYY-MM-DD'), 'Y');
+
+
+CREATE OR REPLACE TRIGGER book_trigger
+AFTER INSERT OR UPDATE OR DELETE ON book
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        -- INSERT가 실행될 때
+        INSERT INTO book_log (log_id, action_type, book_id, log_date)
+        VALUES (book_log_seq.NEXTVAL, 'INSERT', :NEW.book_id, SYSTIMESTAMP);
+    ELSIF UPDATING THEN
+        -- UPDATE가 실행될 때
+        INSERT INTO book_log (log_id, action_type, book_id, log_date)
+        VALUES (book_log_seq.NEXTVAL, 'UPDATE', :OLD.book_id, SYSTIMESTAMP);
+    ELSIF DELETING THEN
+        -- DELETE가 실행될 때
+        INSERT INTO book_log (log_id, action_type, book_id, log_date)
+        VALUES (book_log_seq.NEXTVAL, 'DELETE', :OLD.book_id, SYSTIMESTAMP);
+    END IF;
+END;
+/
+
+
+
+VIEW : 논리적 객체
+실제로 데이터를 저장하지 않고 쿼리 결과를 나타내는 가상 테이블
+View 자체에서는 데이터를 저장하거나 변경하지 않기 때문에 
+DML명령(INSERT, UPDATE, DELETE)을 통해 View를 직접 수정하는것은 일반적으로 제한.
+
+예제코드 : 
+
+    CREATE VIEW -- 뷰 이름 생성 AS  
+      SELECT -- 넣고자 하는 컬럼 
+        FROM -- 테이블 명
+      
+
+INDEX (인덱스) : 
+데이터베이스 성능을 향상시키는 데 중요한 역할을 하는 데이터 구조
+특정 열(컬럼)에 대한 검색 및 조회 작업을 최적화 하기 위해 사용
+(PRIMARY KEY 지정할 경우 자동으로 INDEX 생성)
+
+예제코드 :
+
+  -- employee 테이블 생성
+CREATE TABLE employee (
+    employee_id NEMBER(5) PRIMARY KEY,
+    name VARCHAR2(50),
+    hire_date DATE
+);
+
+ -- 인덱스 생성
+CREATE INDEX 생성해 놓은 인덱스 이름 ON 테이블 (어떤 열의 갑을 기반으로 검색을 빠르게 하기 위해 작성하는 컬럼 이름);
+CREATE INDEX indx_employee_name ON employee(name)
+
+ -- 인덱스를 사용한 SELECT 예제문
+SELECT * FROM employee WHERE name = 'KH';
+
+* index 는 B-Tree 구조로 되어있음
+B-Tree : 데이터를 저장하고 효율적으로 검색하는데 사용되는 데이터 구조
+Balanced Tree 주로 데이터베이스 시스템, 파일 시스템, 파일구조 , 디스크 관리 , 검색엔진 등 다양한 컴퓨팅 시스템에서 인덱싱에 사용
+
+

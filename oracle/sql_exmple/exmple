@@ -1,0 +1,160 @@
+--group by having 사용
+--직원수가 3명 이상인 부서의 부서 번호와 직원수 찾기
+--SELECT 열이름,AVG(열이름) AS 표시하고싶은 열의 이름 FROM 테이블명 GROUP BY 집계할 열이름  HAVING AVG(열이름) > 10.0; 조건지정
+--SELECT COUNT(DNO) as cnt , DNO FROM EMPLOYEE GROUP BY DNO HAVING COUNT(DNO) >= 3;
+  
+-- 각 부서에서 가장 높은 급여를 받는 직원 찾기
+-- having max(salay) = ( select max(salary_ from employee)
+-- SELECT 열이름,AVG(열이름) AS 표시하고싶은 열의 이름 FROM 테이블명 GROUP BY 집계할 열이름 HAVING AVG(열이름) > 10.0; 조건지정
+--SELECT dno, max(salary) FROM EMPLOYEE GROUP BY dno having max(salary) = (select max(salary) from employee);
+    
+--급여 중간값이 3500 이상인 부서 찾기 having MEDIAN(SALARY) >= 3500;
+--SELECT DNO, median(salary) FROM employee GROUP BY DNO having MEDIAN(SALARY) >= 3500;
+  
+--부서와 직책별로 직원 수가 2명 이상인 경우 찾기 count group by 2개 나올 수 있음
+--SELECT dno, job FROM employee GROUP BY dno, job having count(dno) >= 2 or count(job) >= 2;  
+
+--모든 부서의 평균 급여를 구하기
+--SELECT dno ,AVG(SALARY) FROM employee GROUP BY dno; 
+
+--급여가 4000 이상인 직원 수를 찾기
+--SELECT count(*) cnt FROM employee where salary >= 4000;
+
+--부서별로 가장 높은 급여 찾기
+--SELECT dno, max(salary)  FROM employee group by dno;
+
+--부서별로 직원 수가 3명 이상인 부서 찾기
+--SELECT dno from employee group by dno having count(dno) >= 3;
+
+--부서별로 직원 수가 0인 부서 찾기
+SELECT d.DNO, d.DNAME FROM DEPARTMENT d LEFT JOIN EMPLOYEE e ON d.DNO = e.DNO WHERE e.DNO IS NULL;
+
+--급여 범위별로 직원 수 세기
+
+
+--부서별로 급여 합계를 구하고, 합계가 20000 이상인 부서 찾기
+--SELECT DNO , avg(salary) FROM employee GROUP by dno having avg(salary) >= 2000; 
+
+
+--각 부서에서 가장 오래된 직원 찾기
+--SELECT dno, min(hiredate) FROM employee GROUP BY dno;
+
+
+--부서별로 직원의 직무 수 찾기
+--SELECT dno , count(job) job_cnt FROM employee group by dno;
+
+--급여가 평균 급여보다 높은 직원 찾기
+--SELECT * FROM employee WHERE salary > (SELECT avg(salary) from employee);
+
+--부서별로 급여 평균보다 높은 직원 수 찾기
+
+
+--부서별로 최소 급여가 3000 이상인 직원 찾기
+--부서별로 급여 합계가 10000 이상이고 직원 수가 2명 이상인 부서 찾기
+--부서별로 직원의 입사일자가 2023-01-01 이후인 직원 수 찾기
+--급여가 5000 이상이고 커미션을 받지 않는 직원 찾기
+--급여가 가장 높은 직원 찾기
+--직원 수가 가장 많은 부서 찾기
+--급여가 두 번째로 높은 직원 찾기
+--급여가 평균 급여보다 높은 부서의 직원 수 찾기
+--급여가 가장 높은 직무 찾기
+
+
+--부서와 직책별로 직원 수가 2명 이상인 경우 찾기 count group by 2개 나올 수 있음
+
+
+
+
+
+
+
+
+
+--부서별로 직원 수가 0인 부서 찾기
+--select dno, count(*)
+--from employee
+--group by dno
+--having count(*) = 0;
+--
+--
+-----> join을 써야 하니 앟나??
+--select d.dno, e.eno
+--from employee e join department d
+--where d.dno = e.dno;
+
+----부서별로 급여 합계를 구하고, 합계가 20000 이상인 부서 찾기
+--select dno, sum(salary)
+--from employee e 
+--group by dno
+--having sum(salary) > = 20000;
+--
+----각 부서에서 가장 오래된 직원 찾기
+--select dno, max(hiredate)
+--from employee
+--group by dno;
+--
+----부서별로 직원의 직무 수 찾기
+--select dno, job, count(*)
+--from employee
+--group by dno, job;
+--
+----부서별로 최소 급여가 3000 이상인 직원 찾기
+--select dno, min(salary)
+--from employee
+--group by dno
+--having min(salary) >= 3000;
+----부서별로 급여 합계가 10000 이상이고 직원 수가 2명 이상인 부서 찾기
+--select dno, sum(salary), count(*)
+--from employee
+--group by dno
+--having sum(salary) > = 10000 and count(*) >= 2;
+--
+----부서별로 직원의 입사일자가 2023-01-01 이후인 직원 수 찾기
+--select dno, count(*)
+--from employee
+--where hiredate >= to_date('2023-01-01', 'YYYY-MM-DD')
+--group by dno;
+--
+----급여가 가장 높은 직원 찾기
+--select ename, salary
+--from employee
+--where salary = (select max(salary) from employee);
+--
+----급여가 가장 높은 직무 찾기 
+--select job, max(salary)
+--from employee
+--group by job;
+--
+----급여가 두 번째로 높은 직원
+--SELECT ENAME, SALARY
+--FROM EMPLOYEE
+--WHERE SALARY = (SELECT DISTINCT SALARY
+--                 FROM (SELECT dinstict SALARY 
+--                      FROM EMPLOYEE 
+--                       ORDER BY SALARY DESC)
+--                WHERE ROWNUM = 2);
+--
+----급여 범위별로 직원 수 세기
+--select case
+--        when salary < 3000 then 'Low'
+--        when salary >= 3000 and salary < 5000 then 'Medium'
+--        else 'High'
+--    end , count(*)
+--from employee
+--group by case
+--            when salary < 3000 then 'now'
+--            when salary >= 3000 and salary < 5000 then 'Medium'
+--            else 'High'
+--end;
+--
+----급여가 5000 이상이고 커미션을 받지 않는 직원 찾기
+-- select dno, name, salary
+-- from employee
+-- where salary >= 5000 and commission is null;
+--
+-- --직원 수가 가장 많은 부서 찾기
+-- select dno, count(*) 
+-- from employee
+-- group by dno
+-- group by count(*)
+-- fetch first 1 row only;

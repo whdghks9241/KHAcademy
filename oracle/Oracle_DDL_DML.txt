@@ -1,0 +1,12 @@
+CREATE TABLE "user" (
+	user_id varchar2(50),
+	name varcahr2(50),
+	age NUMBER(10),
+	email varchar2(50),
+	hire_date DATE,
+	salary NUMBER(10)
+)
+
+INSERT INTO "user" (user_id, name, age, email, hire_date, salary) values (3, 'jane', 26, 'jane@kh.com', TO_DATE('2023-05-05','YYYY-mm-dd'), 6000.25
+
+SELECT * FROM "user" where age >= 30

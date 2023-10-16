@@ -1,0 +1,83 @@
+--
+--CREATE TABLE Customers (
+--    customer_id NUMBER(5) PRIMARY KEY,
+--    customer_name varchar2(50),
+--    customer_email varchar(100),
+--    customer_birthdate DATE
+--);
+--
+--CREATE TABLE Orders(
+--    order_id NUMBER(5) PRIMARY KEY,
+--    order_date DATE,
+--    order_amount NUMBER(10,2),
+--    customer_id NUMBER(5),
+--    FOREIGN KEY(customer_id) REFERENCES Customers(customer_id)
+--);
+--
+--CREATE TABLE Products (
+--    product_id NUMBER(5) PRIMARY KEY,
+--    product_name varchar2(50),
+--    product_price NUMBER(10,2),
+--    product_quantity NUMBER(5)
+--); 
+--
+--INSERT INTO Customers (customer_id, customer_name, customer_email, customer_birthdate) VALUES (1, 'K Smith', 'john@example.com', TO_DATE('1990-05-15', 'YYYY-MM-DD'));
+--INSERT INTO Customers (customer_id, customer_name, customer_email, customer_birthdate) VALUES (2, 'JongHwan', 'JongHwan@example.com', TO_DATE('1993-04-08', 'YYYY-MM-DD'));
+--INSERT INTO Customers (customer_id, customer_name, customer_email, customer_birthdate) VALUES (3, 'Jong', 'Jong@example.com', TO_DATE('1993-08-08', 'YYYY-MM-DD'));
+--INSERT INTO Customers (customer_id, customer_name, customer_email, customer_birthdate) VALUES (4, 'Hwan', 'Hwan@example.com', TO_DATE('1993-12-16', 'YYYY-MM-DD'));
+--INSERT INTO Customers (customer_id, customer_name, customer_email, customer_birthdate) VALUES (5, 'JHwan', 'JHwan@example.com', TO_DATE('1993-02-21', 'YYYY-MM-DD'));
+--INSERT INTO Customers (customer_id, customer_name, customer_email, customer_birthdate) VALUES (6, 'JongH', 'JongH@example.com', TO_DATE('1993-07-31', 'YYYY-MM-DD'));
+
+
+--INSERT INTO Orders (order_id, order_date, order_amount, customer_id) VALUES (1, TO_DATE('2023-09-05', 'YYYY-MM-DD'), 150.00, 1);
+--INSERT INTO Orders (order_id, order_date, order_amount, customer_id) VALUES (2, TO_DATE('2023-10-05', 'YYYY-MM-DD'), 290.00, 2);
+--INSERT INTO Orders (order_id, order_date, order_amount, customer_id) VALUES (3, TO_DATE('2023-10-05', 'YYYY-MM-DD'), 150.00, 3);
+--INSERT INTO Orders (order_id, order_date, order_amount, customer_id) VALUES (4, TO_DATE('2023-09-05', 'YYYY-MM-DD'), 180.00, 4);
+--INSERT INTO Orders (order_id, order_date, order_amount, customer_id) VALUES (5, TO_DATE('2023-09-05', 'YYYY-MM-DD'), 290.00, 5);
+--INSERT INTO Orders (order_id, order_date, order_amount, customer_id) VALUES (6, TO_DATE('2023-10-05', 'YYYY-MM-DD'), 150.00, 6);
+
+--INSERT INTO Products (product_id, product_name, product_price, product_quantity) VALUES (1, '사과', 1.99, 100);
+--INSERT INTO Products (product_id, product_name, product_price, product_quantity) VALUES (2, '배', 3.18, 200);
+--INSERT INTO Products (product_id, product_name, product_price, product_quantity) VALUES (3, '수박', 2.56, 300);
+--INSERT INTO Products (product_id, product_name, product_price, product_quantity) VALUES (4, '복숭아', 4.98, 400);
+--INSERT INTO Products (product_id, product_name, product_price, product_quantity) VALUES (5, '메론', 2.77, 200);
+--INSERT INTO Products (product_id, product_name, product_price, product_quantity) VALUES (6, '바나나', 1.85, 100);
+
+--모든 고객의 수를 세는 쿼리. 
+SELECT COUNT(*) FROM customers;
+
+--주문 테이블에서 가장 높은 주문 금액을 찾는 쿼리. 
+SELECT * FROM orders ORDER BY order_amount DESC;
+
+--주문 테이블에서 최소 주문 금액을 찾는 쿼리. 
+SELECT MIN(order_amount) FROM orders;
+
+--주문 테이블에서 평균 주문 금액을 계산하는 쿼리. 
+SELECT AVG(order_amount) FROM orders;
+
+--제품 테이블에서 이름이 "사과"인 제품의 재고 수량을 조회하는 쿼리. 
+SELECT product_quantity FROM products WHERE product_name = '사과';
+
+--
+--주문 테이블에서 최신 주문 날짜를 찾는 쿼리. 
+SELECT MAX(order_date) as order_date FROM orders;
+--주문 테이블에서 가장 오래된 주문 날짜를 찾는 쿼리. 
+SELECT min(order_date) as order_date FROM orders;
+
+--고객 테이블에서 이름에 "Smith"가 포함된 고객의 수를 세는 쿼리. 
+--날짜 값에서 요일을 추출하는 쿼리. 
+--고객 테이블에서 가장 많이 주문한 고객을 찾는 쿼리. 
+--
+--주문 테이블에서 주문 금액이 100 이상인 주문 수를 세는 쿼리. 
+--고객 테이블에서 이름의 첫 글자가 "A"인 고객의 수를 세는 쿼리. 
+--주문 테이블에서 주문 금액의 합계를 계산하는 쿼리. 
+--주문 테이블에서 주문 날짜가 2023년인 주문 수를 세는 쿼리. 
+--제품 테이블에서 가격이 가장 비싼 제품을 찾는 쿼리. 
+--
+--주문 테이블에서 각 월별 주문 수를 집계하는 쿼리.
+-- 주문 테이블에서 주문 금액이 가장 높은 고객을 찾는 쿼리. 
+--주문 테이블에서 최근 7일 동안의 주문 수를 세는 쿼리. 
+--제품 테이블에서 이름에 "휴대폰"이 포함된 제품의 수를 세는 쿼리. 
+--주문 테이블에서 가장 일찍 배송된 주문 날짜를 찾는 쿼리.
+
+
